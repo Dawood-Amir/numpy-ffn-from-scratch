@@ -86,21 +86,17 @@ Traditional SGD serves as a baseline optimizer and generally converges more slow
 ```
 
 ---
-
 # 🧠 Mathematical Foundations
 
 ## 1. He (Kaiming) Initialization
 
 To preserve variance across deep networks and maintain stable gradient flow, weights are initialized according to:
 
-$$
-W \sim \mathcal{N}\left(0,\frac{2}{n_{in}}\right)
-$$
+$$W = \mathcal{N}(0,1)\sqrt{\frac{2}{n_{in}}}$$
 
 where:
-
-$W$ = weight matrix
-$n_{in}$ = number of incoming neurons to the layer
+* $W$ = weight matrix
+* $n_{in}$ = number of incoming neurons to the layer
 
 This initialization is particularly effective for ReLU-based networks.
 
@@ -110,35 +106,23 @@ This initialization is particularly effective for ReLU-based networks.
 
 For a hidden layer:
 
-[
-Z^{[l]} = A^{[l-1]}W^{[l]} + b^{[l]}
-]
+$$Z^{[l]} = A^{[l-1]}W^{[l]} + b^{[l]}$$
 
-[
-A^{[l]} = \text{ReLU}(Z^{[l]})
-]
+$$A^{[l]} = \text{ReLU}(Z^{[l]})$$
 
 where:
 
-[
-\text{ReLU}(x)=\max(0,x)
-]
+$$\text{ReLU}(x) = \max(0,x)$$
 
 For the output layer:
 
-[
-Z^{[L]} = A^{[L-1]}W^{[L]} + b^{[L]}
-]
+$$Z^{[L]} = A^{[L-1]}W^{[L]} + b^{[L]}$$
 
 The Softmax function converts logits into class probabilities:
 
-[
-\hat{Y}*i=*
-*\frac{e^{Z_i}}*
-*{\sum*{j=1}^{K}e^{Z_j}}
-]
+$$\hat{Y}_i = \frac{e^{Z_i}}{\sum_{j=1}^{K}e^{Z_j}}$$
 
-where (K) is the number of classes.
+where $K$ is the number of classes.
 
 ---
 
@@ -146,20 +130,13 @@ where (K) is the number of classes.
 
 For multi-class classification:
 
-[
-L=
--\frac{1}{m}
-\sum_{i=1}^{m}
-\sum_{c=1}^{K}
-y_{ic}\log(\hat{y}_{ic})
-]
+$$\mathcal{L} = -\frac{1}{m} \sum_{i=1}^{m} \sum_{c=1}^{K} y_{ic}\log(\hat{y}_{ic})$$
 
 where:
-
-* (m) = batch size
-* (K) = number of classes
-* (y) = true labels
-* (\hat{y}) = predicted probabilities
+* $m$ = batch size
+* $K$ = number of classes
+* $y$ = true labels
+* $\hat{y}$ = predicted probabilities
 
 ---
 
@@ -167,53 +144,31 @@ where:
 
 For Softmax combined with Cross-Entropy:
 
-# \frac{\partial L}{\partial Z^{[L]}}
-
-\hat{Y}-Y
-]
+$$\delta^{[L]} = \frac{\partial \mathcal{L}}{\partial Z^{[L]}} = \hat{Y} - Y$$
 
 Gradient of the final layer weights:
 
-\frac{1}{m}
-(A^{[L-1]})^T
-\delta^{[L]}
-]
+$$\frac{\partial \mathcal{L}}{\partial W^{[L]}} = \frac{1}{m} (A^{[L-1]})^T \delta^{[L]}$$
 
 Gradient of the final layer biases:
 
-\frac{1}{m}
-\sum \delta^{[L]}
-]
+$$\frac{\partial \mathcal{L}}{\partial b^{[L]}} = \frac{1}{m} \sum \delta^{[L]}$$
 
 Error propagated to a hidden layer:
 
-(\delta^{[l+1]}(W^{[l+1]})^T)
-\odot
-\text{ReLU}'(Z^{[l]})
-]
+$$\delta^{[l]} = \left(\delta^{[l+1]}(W^{[l+1]})^T\right) \odot \text{ReLU}'(Z^{[l]})$$
 
 where:
 
-[
-\text{ReLU}'(z)=
-\begin{cases}
-1 & z > 0 \
-0 & z \le 0
-\end{cases}
-]
+$$\text{ReLU}'(z) = \begin{cases} 1 & z > 0 \\ 0 & z \le 0 \end{cases}$$
 
-Weight gradients:
+Weight gradients for hidden layers:
 
-\frac{1}{m}
-(A^{[l-1]})^T
-\delta^{[l]}
-]
+$$\frac{\partial \mathcal{L}}{\partial W^{[l]}} = \frac{1}{m} (A^{[l-1]})^T \delta^{[l]}$$
 
-Bias gradients:
+Bias gradients for hidden layers:
 
-\frac{1}{m}
-\sum \delta^{[l]}
-]
+$$\frac{\partial \mathcal{L}}{\partial b^{[l]}} = \frac{1}{m} \sum \delta^{[l]}$$
 
 ---
 
@@ -222,35 +177,18 @@ Bias gradients:
 Adam combines momentum and adaptive learning rates:
 
 ### First Moment Estimate
-
-\beta_1 m_{t-1}
-+
-(1-\beta_1)g_t
-]
+$$m_t = \beta_1 m_{t-1} + (1-\beta_1)g_t$$
 
 ### Second Moment Estimate
-
-\beta_2 v_{t-1}
-+
-(1-\beta_2)g_t^2
-]
+$$v_t = \beta_2 v_{t-1} + (1-\beta_2)g_t^2$$
 
 ### Bias Correction
+$$\hat{m}_t = \frac{m_t}{1-\beta_1^t}$$
 
-\frac{m_t}{1-\beta_1^t}
-]
-
-\frac{v_t}{1-\beta_2^t}
-]
+$$\hat{v}_t = \frac{v_t}{1-\beta_2^t}$$
 
 ### Parameter Update
-
-## \theta_t
-
-\eta
-\frac{\hat{m}_t}
-{\sqrt{\hat{v}_t}+\epsilon}
-]
+$$\theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{\hat{v}_t}+\epsilon} \hat{m}_t$$
 
 ---
 
@@ -258,16 +196,12 @@ Adam combines momentum and adaptive learning rates:
 
 AdamW decouples weight decay from gradient estimation:
 
-## \theta_t
-
-\eta\lambda\theta_t
-]
+$$\theta_{t+1} = \theta_t - \eta\lambda\theta_t - \frac{\eta}{\sqrt{\hat{v}_t}+\epsilon} \hat{m}_t$$
 
 where:
-
-* (\eta) = learning rate
-* (\lambda) = weight decay coefficient
-* (\epsilon) = numerical stability term
+* $\eta$ = learning rate
+* $\lambda$ = weight decay coefficient
+* $\epsilon$ = numerical stability term
 
 This formulation prevents weight decay from contaminating momentum statistics and typically improves generalization.
 
@@ -322,9 +256,9 @@ The learned feature extraction layers can be reused as a pretrained backbone in 
 
 Freeze pretrained layers:
 
-[
+$$
 \frac{\partial L}{\partial W}=0
-]
+$$
 
 and train only newly added output layers.
 
