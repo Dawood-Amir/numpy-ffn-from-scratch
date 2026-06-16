@@ -93,14 +93,14 @@ Traditional SGD serves as a baseline optimizer and generally converges more slow
 
 To preserve variance across deep networks and maintain stable gradient flow, weights are initialized according to:
 
-[
+$$
 W \sim \mathcal{N}\left(0,\frac{2}{n_{in}}\right)
-]
+$$
 
 where:
 
-* (W) = weight matrix
-* (n_{in}) = number of incoming neurons to the layer
+$W$ = weight matrix
+$n_{in}$ = number of incoming neurons to the layer
 
 This initialization is particularly effective for ReLU-based networks.
 
