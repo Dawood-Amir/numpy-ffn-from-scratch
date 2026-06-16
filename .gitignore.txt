@@ -1,0 +1,15 @@
+# Block Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Block local virtual environments
+.venv/
+venv/
+env/
+
+# Block IDE or system junk
+.vscode/
+.idea/
+.DS_Store
