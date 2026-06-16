@@ -172,40 +172,6 @@ $$\frac{\partial \mathcal{L}}{\partial b^{[l]}} = \frac{1}{m} \sum \delta^{[l]}$
 
 ---
 
-## 5. Adam Optimization
-
-Adam combines momentum and adaptive learning rates:
-
-### First Moment Estimate
-$$m_t = \beta_1 m_{t-1} + (1-\beta_1)g_t$$
-
-### Second Moment Estimate
-$$v_t = \beta_2 v_{t-1} + (1-\beta_2)g_t^2$$
-
-### Bias Correction
-$$\hat{m}_t = \frac{m_t}{1-\beta_1^t}$$
-
-$$\hat{v}_t = \frac{v_t}{1-\beta_2^t}$$
-
-### Parameter Update
-$$\theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{\hat{v}_t}+\epsilon} \hat{m}_t$$
-
----
-
-## 6. AdamW Regularization
-
-AdamW decouples weight decay from gradient estimation:
-
-$$\theta_{t+1} = \theta_t - \eta\lambda\theta_t - \frac{\eta}{\sqrt{\hat{v}_t}+\epsilon} \hat{m}_t$$
-
-where:
-* $\eta$ = learning rate
-* $\lambda$ = weight decay coefficient
-* $\epsilon$ = numerical stability term
-
-This formulation prevents weight decay from contaminating momentum statistics and typically improves generalization.
-
----
 
 # 🏃‍♂️ Running the Project
 
@@ -248,29 +214,13 @@ This execution path performs prediction only and does not allocate memory for gr
 
 # 🌟 Strategic Takeaway: Transfer Learning Potential
 
-Although originally trained on the Iris dataset, the architecture supports transfer learning workflows.
+Although originally trained on the Iris dataset, the architecture supports transfer learning workflows. The learned feature extraction layers can be reused as a pretrained backbone in larger classification systems through:
 
-The learned feature extraction layers can be reused as a pretrained backbone in larger classification systems through:
-
-### Feature Extraction
-
-Freeze pretrained layers:
-
-$$
-\frac{\partial L}{\partial W}=0
-$$
-
-and train only newly added output layers.
+### Feature Extraction (Freezing Weights)
+$$\frac{\partial \mathcal{L}}{\partial W} = 0$$
 
 ### Fine-Tuning
-
-Initialize a new model using pretrained weights and continue optimization with a smaller learning rate:
-
-[
-\eta_{\text{fine-tune}}
-\ll
-\eta_{\text{original}}
-]
+$$\eta_{\text{fine-tune}} \ll \eta_{\text{original}}$$
 
 This allows the network to retain previously learned representations while adapting to new datasets and tasks.
 
