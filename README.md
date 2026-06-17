@@ -2,7 +2,7 @@
 
 A fully manual implementation of a Feedforward Neural Network built using only Python and NumPy, without any deep learning frameworks such as PyTorch or TensorFlow. The goal of this project is to demonstrate the complete training pipeline of neural networks, including forward propagation, backpropagation, and gradient-based optimization using explicit matrix calculus.
 
-The architecture uses ReLU activations in hidden layers and a Softmax + Cross-Entropy output layer, enabling a simplified and numerically stable gradient formulation of the form \( \hat{y} - y \) at the output layer, which makes manual backpropagation more interpretable.
+The architecture uses ReLU activations in hidden layers and a Softmax + Cross-Entropy output layer, enabling a simplified and numerically stable gradient formulation of the form (ŷ - y) at the output layer, which makes manual backpropagation more interpretable.
 
 ---
 
