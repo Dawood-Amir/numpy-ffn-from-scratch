@@ -55,11 +55,12 @@ Traditional SGD serves as a baseline optimizer and generally converges more slow
 
 # 🛠️ Project Structure
 
+```text
 ├── data_loader.py
 │   └── Data acquisition, normalization, and train-test splitting
 │
 ├── inference.py
-│   └── Standalone inference Workflow
+│   └── Standalone inference pipeline
 │
 ├── main.py
 │   └── Training loops, benchmarking, and hyperparameter configuration
@@ -74,6 +75,7 @@ Traditional SGD serves as a baseline optimizer and generally converges more slow
     │
     └── optimizers.py
         └── SGD, Momentum, Adam, and AdamW implementations
+```
 
 ---
 
