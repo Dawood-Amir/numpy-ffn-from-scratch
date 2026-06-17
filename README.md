@@ -160,7 +160,13 @@ $$\delta^{[l]} = \left(\delta^{[l+1]}(W^{[l+1]})^T\right) \odot \text{ReLU}'(Z^{
 
 where:
 
-$$\text{ReLU}'(z) = \begin{cases} 1 & z > 0 \\ 0, & z \le 0 \end{cases}$$
+$$
+\text{ReLU}'(z)=
+\begin{cases}
+1, & z > 0 \\
+0, & z \le 0
+\end{cases}
+$$
 
 Weight gradients for hidden layers:
 
